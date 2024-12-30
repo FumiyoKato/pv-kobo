@@ -21,6 +21,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'address',
+        'phone',
+        'name_incharge',
+        'delivery_email',
+        'on_service',
+        'registered_at',
+        'revised_at',
     ];
 
     /**
@@ -41,5 +48,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'on_service' => 'boolean',
+        'registered_at' => 'datetime',
+        'revised_at' => 'datetime',
     ];
+
+    /**
+     * Customize the names of the timestamp columns.
+     */
+    const CREATED_AT = 'registered_at';
+    const UPDATED_AT = 'revised_at';
+
+    /**
+     * リレーション: User has many ForecastUnits.
+     */
+    public function forecastUnits()
+    {
+        return $this->hasMany(ForecastUnit::class, 'user_id');
+    }
 }
