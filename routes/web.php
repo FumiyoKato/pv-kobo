@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostController; //【初回予測設定】用のコントローラ
+use App\Http\Controllers\ForecastUnitController; //【予測単位追加】用のコントローラ
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('post/create', [PostController::class, 'create']);
+//予測単位1件目の[Postルート]
+Route::get('post/create', [PostController::class, 'create'])->name('post.create');
+Route::post('post/create', [PostController::class, 'store'])->name('post.store');
+
+//予測単位追加(2件目以降)の[ForecastUnitルート]
+Route::get('forecast-units', [ForecastUnitController::class, 'index'])->name('forecast-units.index');
+Route::post('forecast-units', [ForecastUnitController::class, 'store'])->name('forecast-units.store');
 
 require __DIR__.'/auth.php';

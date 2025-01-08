@@ -6,13 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\ForecastUnit;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class ForecastUnitController extends Controller
 {
-    //
-    public function create() {
-        return view('post.create');
+    /**
+     * 予測単位の一覧を表示
+     */
+    public function index()
+    {
+        //ログインユーザーに紐づく予測単位を取得
+        $forecastUnits = ForecastUnit::where('user_id', Auth::id())->get();
+
+        return view('forecast_units.index', compact('forecastUnits'));
     }
 
+    /**
+     * 予測単位を新規登録
+     */
     public function store(Request $request)
     {
         // バリデーション
@@ -44,7 +53,7 @@ class PostController extends Controller
         // 数値に変換（必要に応じて）
         $pvCapacity = (float)$pvCapacity;
         $pcsCapacity = (float)$pcsCapacity;
-        
+
         //validated配列にコンマを除去した値を代入
         $validated['pv_capacity'] = $pvCapacity;
         $validated['pcs_capacity'] = $pcsCapacity;
@@ -52,7 +61,6 @@ class PostController extends Controller
         // 新しい予測単位を作成
         ForecastUnit::create($validated);
 
-        return redirect()->route('forecast-units.index')->with('success', '予測設定を登録しました。'); // リダイレクト先は適宜変更
+        return redirect()->route('forecast-units.index')->with('success', '予測設定を登録しました。');
     }
-
 }
