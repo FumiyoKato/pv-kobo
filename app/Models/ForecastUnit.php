@@ -15,6 +15,7 @@ class ForecastUnit extends Model
 
     protected $fillable = [
         'forecast_unit_name',
+        'user_id',
         'pv_capacity',
         'pcs_capacity',
         'pcs_efficiency',
@@ -31,6 +32,12 @@ class ForecastUnit extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // pv_capacityとpcs_capacityをfloat型に変更
+    protected $casts = [
+        'pv_capacity' => 'float',
+        'pcs_capacity' => 'float',
+    ];
 
     /**
      * モデルイベントによる自動処理
