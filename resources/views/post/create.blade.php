@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            予測設定
-        </h2>
-    </x-slot>
 
     <div class="min-h-screen bg-[#f5f5f0]">
         <div class="max-w-4xl mx-auto p-8">
