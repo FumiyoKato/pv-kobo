@@ -4,21 +4,21 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\DashboardController; // 追加
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 // ログイン後、ダッシュボードへ遷移するよう修正
-Route::get('/dashboard', [DashboardController::class, 'index']) // 修正
+Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/update-delivery-email', [ProfileController::class, 'updateDeliveryEmail'])->name('profile.update.delivery_email');
 });
 
 Route::get('post/create', [PostController::class, 'create'])->name('post.create');

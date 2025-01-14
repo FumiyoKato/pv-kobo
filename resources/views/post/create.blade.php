@@ -3,18 +3,19 @@
     <div class="min-h-screen bg-[#f5f5f0]">
         <div class="max-w-4xl mx-auto p-8">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-xl font-normal">{{ Auth::user()->name }}</h1>
+                {{-- <h1 class="text-xl font-normal">{{ Auth::user()->name }}</h1> --}}
+                <h1 class="text-xl font-normal">予測単位新規登録</h1>
                 <div>
                     <a href="{{ route('dashboard') }}">
                         <x-primary-button class="mr-2">
-                            一覧へ戻る
+                            予測単位一覧へ戻る
                         </x-primary-button>
                     </a>
-                    <a href="{{ route('dashboard') }}">
+                    {{-- <a href="{{ route('dashboard') }}">
                         <x-primary-button>
                             マイページ
                         </x-primary-button>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
 

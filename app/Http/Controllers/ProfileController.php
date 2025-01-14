@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\DeliveryEmailUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,12 +25,31 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        if ($request->has('email') && $request->email !== auth()->user()->email) {
+            // email が変更されている場合、ProfileUpdateRequest を使用
+            $profileUpdateRequest = new ProfileUpdateRequest();
+            $validatedData = $request->validate($profileUpdateRequest->rules());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            // // ★★★ バリデーション結果を確認 ★★★
+            // dd($validatedData);
+
+            // バリデーションを通った email を設定
+            if (isset($validatedData['email'])) {
+                $request->user()->email = $validatedData['email'];
+
+                if ($request->user()->isDirty('email')) {
+                    $request->user()->email_verified_at = null;
+                }
+            }
+        }
+
+        if ($request->has('delivery_email') && $request->delivery_email !== auth()->user()->delivery_email) {
+            // delivery_email が変更されている場合、DeliveryEmailUpdateRequest を使用
+            $deliveryEmailUpdateRequest = new DeliveryEmailUpdateRequest();
+            $validatedData = $request->validate($deliveryEmailUpdateRequest->rules());
+            $request->user()->delivery_email = $validatedData['delivery_email'];
         }
 
         $request->user()->save();
@@ -37,24 +57,11 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function updateDeliveryEmail(DeliveryEmailUpdateRequest $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        $request->user()->fill($request->validated());
+        $request->user()->save();
 
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 }
