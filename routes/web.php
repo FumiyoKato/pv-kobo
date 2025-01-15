@@ -5,10 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\DashboardController;
 
-Route::middleware('guest')->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+Route::get('/', function () {
+    return view('welcome');
 });
 
 // ログイン後、ダッシュボードへ遷移
