@@ -1,18 +1,5 @@
 <x-app-layout>
 
-
-    {{-- <div>
-        <h1>テスト</h1>
-    </div> --}}
-
-
-{{-- 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('ＰＶ予測セルフ工房') }}
-        </h2>
-    </x-slot> --}}
-
     <div class="relative" style="height: 732px;">
         <img src="{{ asset('img/PV_kobo.jpg') }}" alt="PV予測セルフ工房" class="w-full h-full object-cover">
         <div class="absolute inset-0 flex items-center justify-center">
