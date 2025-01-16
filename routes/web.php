@@ -18,9 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/update-delivery-email', [ProfileController::class, 'updateDeliveryEmail'])->name('profile.update.delivery_email');
+    Route::get('post/create', [PostController::class, 'create'])->name('post.create');
+    Route::post('post/create', [PostController::class, 'store'])->name('post.store');
 });
-
-Route::get('post/create', [PostController::class, 'create'])->name('post.create');
-Route::post('post/create', [PostController::class, 'store'])->name('post.store');
 
 require __DIR__.'/auth.php';
